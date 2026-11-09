@@ -1,5 +1,7 @@
 # Home Assistant Online / Offline Devices
 
+[![Validate](https://github.com/PetrMlejnek/home-assistant-offline-devices/actions/workflows/validate.yml/badge.svg)](https://github.com/PetrMlejnek/home-assistant-offline-devices/actions/workflows/validate.yml)
+
 Find offline devices across your Home Assistant home, keep a dashboard up to date automatically, and receive optional notifications when availability changes.
 
 [Český návod](README.cs.md) · [Notification blueprint](blueprints/availability_notifications.yaml) · [Dashboard](dashboards/device-availability.yaml)
@@ -26,7 +28,7 @@ The supplied dashboard uses standard cards. No custom frontend cards, cloud acco
 
 This project is **not yet included in the default catalog**. Searching for it will not find it until a catalog submission has been accepted. Home Assistant 2026.11 includes the former HACS experience in **Settings → Marketplace**. See the [official Marketplace guide](https://www.home-assistant.io/integrations/marketplace).
 
-1. Add `https://github.com/PetrMlejnek/home-assistant-offline-devices` as a custom repository, type **Integration**. In older HACS installations the custom repository menu is under the three-dot menu.
+1. In **Settings → Marketplace**, select **Add from link** and enter `https://github.com/PetrMlejnek/home-assistant-offline-devices`. Select **Integration** if asked for the type. Marketplace requires a GitHub connection for custom repositories. In older HACS installations the custom repository menu is under the three-dot menu.
 2. Download the integration. For a beta release, enable prerelease versions if your client requires it.
 3. Restart Home Assistant.
 4. Go to **Settings → Devices & services → Add integration**, then search for **Online / Offline Devices**.
@@ -60,7 +62,7 @@ If you delete the selected label, the dashboard displays a warning and notificat
 
 Notifications start **off** and the switch restores its previous setting after restart. The integration sends local Home Assistant events; it never picks a recipient automatically.
 
-1. Copy [availability_notifications.yaml](blueprints/availability_notifications.yaml) to `config/blueprints/automation/offline_devices/availability_notifications.yaml`, or import its GitHub URL using the blueprint import UI after the repository is published.
+1. Copy [availability_notifications.yaml](blueprints/availability_notifications.yaml) to `config/blueprints/automation/offline_devices/availability_notifications.yaml`, or import `https://github.com/PetrMlejnek/home-assistant-offline-devices/blob/main/blueprints/availability_notifications.yaml` using the blueprint import UI.
 2. Create **one** automation from the blueprint.
 3. In **Notification actions**, choose your mobile notification action. Set the title to `{{ notification_title }}` and the message to `{{ notification_message }}`. You can customize the language or use the device lists in your own template.
 4. Check the selected notifications switch and set the dashboard path if you used a different URL.

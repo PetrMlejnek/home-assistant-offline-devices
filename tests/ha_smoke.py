@@ -11,6 +11,7 @@ import tempfile
 
 from homeassistant.bootstrap import async_from_config_dict
 from homeassistant.core import HomeAssistant
+from homeassistant import loader
 from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.helpers.template import Template
 from homeassistant.util.yaml import load_yaml
@@ -18,13 +19,16 @@ from homeassistant.util.yaml import load_yaml
 
 async def smoke(config_dir):
     hass = HomeAssistant(str(config_dir))
-    await async_from_config_dict({
-        "homeassistant": {"name": "Synthetic test home", "latitude": 0,
-                          "longitude": 0, "elevation": 0, "unit_system": "metric",
-                          "time_zone": "UTC"},
-        "logger": {"default": "warning"},
-    }, hass)
+    loader.async_setup(hass)
     try:
+        configured = await async_from_config_dict({
+            "homeassistant": {"name": "Synthetic test home", "latitude": 0,
+                              "longitude": 0, "elevation": 0, "unit_system": "metric",
+                              "time_zone": "UTC"},
+            "logger": {"default": "warning"},
+        }, hass)
+        assert configured is hass
+        await hass.async_start()
         result = await hass.config_entries.flow.async_init("offline_devices", context={"source": "user"})
         assert result["type"] == "form", result
         result = await hass.config_entries.flow.async_configure(result["flow_id"], {})

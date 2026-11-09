@@ -1,5 +1,7 @@
 # Home Assistant Online / Offline Devices
 
+[![Kontroly](https://github.com/PetrMlejnek/home-assistant-offline-devices/actions/workflows/validate.yml/badge.svg)](https://github.com/PetrMlejnek/home-assistant-offline-devices/actions/workflows/validate.yml)
+
 Automatický přehled offline zařízení v domácnosti, dashboard a volitelná upozornění při změně dostupnosti.
 
 [English documentation](README.md) · [Blueprint upozornění](blueprints/availability_notifications.yaml) · [Dashboard](dashboards/device-availability.yaml)
@@ -24,7 +26,7 @@ Dashboard používá standardní karty. Integrace nepotřebuje účet v cloudu, 
 
 Projekt **zatím není zařazený do výchozího katalogu**. Ve vyhledávání se objeví teprve po schválení. Od Home Assistanta 2026.11 je původní HACS součástí **Nastavení → Marketplace**. [Oficiální dokumentace](https://www.home-assistant.io/integrations/marketplace)
 
-1. Přidejte `https://github.com/PetrMlejnek/home-assistant-offline-devices` jako vlastní repozitář typu **Integration**. Ve starším HACS bývá tato možnost v nabídce se třemi tečkami.
+1. V **Nastavení → Marketplace** zvolte **Add from link / Přidat z odkazu** a vložte `https://github.com/PetrMlejnek/home-assistant-offline-devices`. Pokud se rozhraní zeptá na typ, zvolte **Integration**. Vlastní repozitáře vyžadují propojení Marketplace s GitHubem. Ve starším HACS bývá tato možnost v nabídce se třemi tečkami.
 2. Stáhněte integraci. Pro beta vydání případně povolte předběžné verze.
 3. Restartujte Home Assistant.
 4. Otevřete **Nastavení → Zařízení a služby → Přidat integraci** a vyhledejte **Online / Offline Devices**.
@@ -54,7 +56,7 @@ Smazání zvoleného štítku pozastaví upozornění a dashboard ukáže varov�
 
 Přepínač je při první instalaci **vypnutý**, potom se jeho stav obnovuje po restartu. Integrace vytváří místní události Home Assistanta; příjemce zpráv vybíráte sami.
 
-1. Soubor [availability_notifications.yaml](blueprints/availability_notifications.yaml) vložte do `config/blueprints/automation/offline_devices/availability_notifications.yaml`, případně po zveřejnění importujte jeho GitHub URL přes rozhraní blueprintů.
+1. Soubor [availability_notifications.yaml](blueprints/availability_notifications.yaml) vložte do `config/blueprints/automation/offline_devices/availability_notifications.yaml`, případně v rozhraní blueprintů importujte `https://github.com/PetrMlejnek/home-assistant-offline-devices/blob/main/blueprints/availability_notifications.yaml`.
 2. Z blueprintu vytvořte **jednu** automatizaci.
 3. Vyberte svou mobilní oznamovací akci. Do nadpisu vložte `{{ notification_title }}`, do zprávy `{{ notification_message }}`.
 4. Zkontrolujte vybraný přepínač upozornění a případně upravte cestu dashboardu. Vnořená pole `data.url` a `data.clickAction` lze nastavit na `{{ dashboard_path }}` pro otevření dashboardu z oznámení.
