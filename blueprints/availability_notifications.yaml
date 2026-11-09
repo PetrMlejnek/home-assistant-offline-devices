@@ -10,6 +10,13 @@ blueprint:
   homeassistant:
     min_version: "2026.11.0"
   input:
+    notification_switch:
+      name: Availability notifications switch
+      default: switch.offline_devices_notifications
+      selector:
+        entity:
+          filter:
+            - domain: switch
     notification_actions:
       name: Notification actions
       description: >-
@@ -26,6 +33,9 @@ triggers:
   - trigger: event
     event_type: offline_devices_changed
 actions:
+  - condition: state
+    entity_id: !input notification_switch
+    state: 'on'
   - variables:
       notification_title: "{{ trigger.event.data.title }}"
       notification_message: "{{ trigger.event.data.message }}"

@@ -63,7 +63,7 @@ Notifications start **off** and the switch restores its previous setting after r
 1. Copy [availability_notifications.yaml](blueprints/availability_notifications.yaml) to `config/blueprints/automation/offline_devices/availability_notifications.yaml`, or import its GitHub URL using the blueprint import UI after the repository is published.
 2. Create **one** automation from the blueprint.
 3. In **Notification actions**, choose your mobile notification action. Set the title to `{{ notification_title }}` and the message to `{{ notification_message }}`. You can customize the language or use the device lists in your own template.
-4. Set the dashboard path if you used a different URL.
+4. Check the selected notifications switch and set the dashboard path if you used a different URL.
 5. Turn on **Mobile notifications** on the dashboard.
 
 Example notification action (replace the placeholder service with your actual mobile app action):

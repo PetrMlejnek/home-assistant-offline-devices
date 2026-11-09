@@ -57,7 +57,7 @@ Přepínač je při první instalaci **vypnutý**, potom se jeho stav obnovuje p
 1. Soubor [availability_notifications.yaml](blueprints/availability_notifications.yaml) vložte do `config/blueprints/automation/offline_devices/availability_notifications.yaml`, případně po zveřejnění importujte jeho GitHub URL přes rozhraní blueprintů.
 2. Z blueprintu vytvořte **jednu** automatizaci.
 3. Vyberte svou mobilní oznamovací akci. Do nadpisu vložte `{{ notification_title }}`, do zprávy `{{ notification_message }}`.
-4. Případně upravte cestu dashboardu. Vnořená pole `data.url` a `data.clickAction` lze nastavit na `{{ dashboard_path }}` pro otevření dashboardu z oznámení.
+4. Zkontrolujte vybraný přepínač upozornění a případně upravte cestu dashboardu. Vnořená pole `data.url` a `data.clickAction` lze nastavit na `{{ dashboard_path }}` pro otevření dashboardu z oznámení.
 5. Na dashboardu zapněte **Mobile notifications**.
 
 Úplný YAML příklad je v [anglickém návodu](README.md#optional-mobile-notifications). K dispozici jsou i proměnné `offline_devices` a `recovered_devices`; zprávu si můžete napsat česky. Každý řádek obsahuje `id`, `name`, `area`, `integrations`, `status`, `since` a `incident`.

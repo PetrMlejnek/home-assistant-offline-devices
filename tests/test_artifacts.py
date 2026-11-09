@@ -48,6 +48,8 @@ class ArtifactTests(unittest.TestCase):
         self.assertEqual(blueprint["triggers"][0]["event_type"], "offline_devices_changed")
         self.assertEqual(blueprint["actions"][-1]["sequence"], {"input": "notification_actions"})
         self.assertNotIn("default", blueprint["blueprint"]["input"]["notification_actions"])
+        self.assertEqual(blueprint["actions"][0], {
+            "condition": "state", "entity_id": {"input": "notification_switch"}, "state": "on"})
 
     def test_dashboard_templates_render_offline_unknown_and_empty_states(self):
         dashboard = yaml.safe_load((ROOT / "dashboards/device-availability.yaml").read_text(encoding="utf-8"))
