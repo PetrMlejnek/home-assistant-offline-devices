@@ -1,0 +1,37 @@
+blueprint:
+  name: Online / Offline Devices - notifications
+  description: >-
+    Send one summary for changes detected in the same scan. Requires the
+    offline_devices integration and its notifications switch enabled.
+    In your notification action, use {{ notification_title }} and
+    {{ notification_message }}. The variables offline_devices, recovered_devices
+    and dashboard_path are also available. Choose your own notification service.
+  domain: automation
+  homeassistant:
+    min_version: "2026.11.0"
+  input:
+    notification_actions:
+      name: Notification actions
+      description: >-
+        Select a notify action. Set title to {{ notification_title }} and
+        message to {{ notification_message }}. No recipient is selected for you.
+      selector:
+        action: {}
+    dashboard_path:
+      name: Dashboard path
+      default: /device-availability/overview
+      selector:
+        text: {}
+triggers:
+  - trigger: event
+    event_type: offline_devices_changed
+actions:
+  - variables:
+      notification_title: "{{ trigger.event.data.title }}"
+      notification_message: "{{ trigger.event.data.message }}"
+      offline_devices: "{{ trigger.event.data.offline }}"
+      recovered_devices: "{{ trigger.event.data.recovered }}"
+      dashboard_path: !input dashboard_path
+  - sequence: !input notification_actions
+mode: queued
+max: 10

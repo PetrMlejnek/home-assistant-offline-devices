@@ -1,0 +1,32 @@
+{
+  "title": "Online / Offline Devices",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Monitor device availability",
+        "description": "Monitor devices registered in Home Assistant. Select a label for exceptions, or leave it empty to create 'Do not monitor availability'. Notifications start disabled.",
+        "data": {
+          "ignore_label": "Exclusion label",
+          "offline_grace": "Confirm an outage after (seconds)"
+        }
+      }
+    },
+    "abort": {"already_configured": "Only one availability monitor is needed."}
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Availability settings",
+        "description": "Apply the exclusion label to devices that are intentionally offline. Changes reload the monitor and start a five-minute settling period.",
+        "data": {
+          "ignore_label": "Exclusion label",
+          "offline_grace": "Confirm an outage after (seconds)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {"offline_count": {"name": "Offline devices"}},
+    "switch": {"notifications": {"name": "Availability notifications"}}
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "title": "Online / Offline Devices",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Hlídání dostupnosti zařízení",
+        "description": "Sleduje zařízení registrovaná v Home Assistantu. Zvolte štítek pro výjimky, nebo nechte pole prázdné a vytvoří se 'Do not monitor availability'. Upozornění jsou zpočátku vypnutá.",
+        "data": {
+          "ignore_label": "Štítek pro výjimky",
+          "offline_grace": "Potvrdit výpadek po (sekundy)"
+        }
+      }
+    },
+    "abort": {"already_configured": "Stačí jeden monitor dostupnosti."}
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Nastavení dostupnosti",
+        "description": "Štítek přiřaďte zařízením, která jsou vypnutá schválně. Změna nastavení znovu načte monitor a spustí pětiminutové ustálení stavů.",
+        "data": {
+          "ignore_label": "Štítek pro výjimky",
+          "offline_grace": "Potvrdit výpadek po (sekundy)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {"offline_count": {"name": "Offline zařízení"}},
+    "switch": {"notifications": {"name": "Upozornění na dostupnost"}}
+  }
+}

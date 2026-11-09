@@ -1,0 +1,93 @@
+title: Device availability
+views:
+  - title: Overview
+    path: overview
+    icon: mdi:home-heart
+    cards:
+      - type: entities
+        title: Device availability
+        show_header_toggle: false
+        entities:
+          - entity: sensor.offline_devices
+            name: Confirmed offline devices
+          - entity: switch.offline_devices_notifications
+            name: Mobile notifications
+      - type: markdown
+        title: Monitor status
+        content: |-
+          {% set s = states.sensor.offline_devices %}
+          {% if s is undefined or s.state in ['unknown', 'unavailable'] %}
+          ⚠️ The monitor is unavailable. Check the integration and its entity ID.
+          {% elif (as_timestamp(now()) - as_timestamp(s.last_reported)) > 180 %}
+          ⚠️ The monitor has not updated for over three minutes.
+          {% else %}
+          Monitoring **{{ s.attributes.get('monitored', 0) }}** devices;
+          **{{ s.attributes.get('excluded', 0) }}** excluded.
+          {% if s.attributes.get('warming_up') %}
+          ⏳ Waiting for devices to settle after startup (five minutes).
+          {% endif %}
+          {% if s.attributes.get('label_missing') %}
+          ⚠️ The exclusion label was deleted. Select a valid label in the integration options. Notifications are paused.
+          {% endif %}
+          {% endif %}
+      - type: markdown
+        title: Offline devices
+        content: |-
+          {% set rows = state_attr('sensor.offline_devices', 'devices') or [] %}
+          {% set offline = rows | selectattr('status', 'eq', 'offline') | list %}
+          {% if offline %}
+          {% for d in offline %}
+          - **{{ d.name | e }}** — {{ d.area | e if d.area else 'No area' }} · {{ d.integrations | e }}
+            Since {{ d.since | timestamp_custom('%Y-%m-%d %H:%M', true) }}
+          {% endfor %}
+          {% elif states('sensor.offline_devices') not in ['unknown', 'unavailable'] %}
+          No confirmed outages. Check uncertain states below too.
+          {% else %}
+          Availability cannot be evaluated while the monitor is unavailable.
+          {% endif %}
+      - type: markdown
+        title: Pending or uncertain
+        content: |-
+          {% set rows = state_attr('sensor.offline_devices', 'devices') or [] %}
+          {% set uncertain = rows | selectattr('status', 'in', ['pending', 'unknown', 'blocked']) | list %}
+          {% for d in uncertain %}
+          - **{{ d.name | e }}** — {{ d.area | e if d.area else 'No area' }} · {{ d.status }}
+          {% else %}
+          No pending or uncertain states.
+          {% endfor %}
+          **pending:** waiting for confirmation · **unknown:** insufficient state data · **blocked:** Zigbee2MQTT bridge unavailable
+  - title: All devices
+    path: all
+    icon: mdi:devices
+    cards:
+      - type: markdown
+        title: Automatically maintained inventory
+        content: |-
+          {% for d in (state_attr('sensor.offline_devices', 'devices') or []) if d.status != 'excluded' %}
+          - **{{ d.name | e }}** — {{ d.area | e if d.area else 'No area' }} · {{ d.integrations | e }} · **{{ d.status }}**
+          {% else %}
+          No devices loaded. Check the monitor status on Overview.
+          {% endfor %}
+  - title: Exclusions
+    path: exclusions
+    icon: mdi:eye-off
+    cards:
+      - type: markdown
+        title: Intentionally offline
+        content: |-
+          Apply the integration's exclusion label to a **device** under Settings → Devices & services.
+          Remove the label to resume monitoring. The list updates within a minute.
+
+          Current label: **{{ label_name(state_attr('sensor.offline_devices', 'ignore_label')) or 'Missing' }}**
+
+          {% for d in (state_attr('sensor.offline_devices', 'devices') or []) if d.status == 'excluded' %}
+          - **{{ d.name | e }}** — {{ d.area | e if d.area else 'No area' }}
+          {% else %}
+          No excluded devices.
+          {% endfor %}
+      - type: markdown
+        title: Notifications
+        content: |-
+          The switch on Overview controls notifications for every monitored integration.
+          Import the notification blueprint and choose a recipient first.
+          Monitoring continues while notifications are off; enabling them does not replay old outages.

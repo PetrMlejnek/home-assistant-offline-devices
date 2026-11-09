@@ -1,0 +1,12 @@
+{
+  "domain": "offline_devices",
+  "name": "Online / Offline Devices",
+  "codeowners": ["@PetrMlejnek"],
+  "config_flow": true,
+  "documentation": "https://github.com/PetrMlejnek/home-assistant-offline-devices",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/PetrMlejnek/home-assistant-offline-devices/issues",
+  "requirements": [],
+  "version": "0.1.0-beta.1"
+}
